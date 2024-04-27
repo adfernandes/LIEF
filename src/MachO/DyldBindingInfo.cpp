@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ namespace MachO {
 DyldBindingInfo::~DyldBindingInfo() = default;
 DyldBindingInfo::DyldBindingInfo() = default;
 
-DyldBindingInfo& DyldBindingInfo::operator=(DyldBindingInfo&&) = default;
 DyldBindingInfo::DyldBindingInfo(DyldBindingInfo&&) = default;
 DyldBindingInfo::DyldBindingInfo(const DyldBindingInfo& other) = default;
 
@@ -78,24 +77,6 @@ uint64_t DyldBindingInfo::original_offset() const {
 
 void DyldBindingInfo::accept(Visitor& visitor) const {
   visitor.visit(*this);
-}
-
-bool DyldBindingInfo::operator==(const DyldBindingInfo& rhs) const {
-  if (this == &rhs) {
-    return true;
-  }
-  if (&rhs == this) { return true; }
-  size_t hash_lhs = Hash::hash(*this);
-  size_t hash_rhs = Hash::hash(rhs);
-  return hash_lhs == hash_rhs;
-}
-
-bool DyldBindingInfo::operator!=(const DyldBindingInfo& rhs) const {
-  return !(*this == rhs);
-}
-
-bool DyldBindingInfo::classof(const BindingInfo& info) {
-  return info.type() == BindingInfo::TYPES::DYLD_INFO;
 }
 
 std::ostream& operator<<(std::ostream& os, const DyldBindingInfo& info) {

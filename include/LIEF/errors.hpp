@@ -1,5 +1,5 @@
-/* Copyright 2021 - 2023 R. Thomas
- * Copyright 2021 - 2023 Quarkslab
+/* Copyright 2021 - 2024 R. Thomas
+ * Copyright 2021 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -104,6 +104,14 @@ inline ok_t ok() {
 //! }
 //! \endcode
 using ok_error_t = result<ok_t>;
+
+inline bool is_ok(const ok_error_t& val) {
+  return val.has_value();
+}
+
+inline bool is_err(const ok_error_t& val) {
+  return !is_ok(val);
+}
 
 }
 

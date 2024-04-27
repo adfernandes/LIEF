@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ class LIEF_API Header : public Object {
   Header& operator=(const Header& copy);
   Header(const Header& copy);
 
-  virtual ~Header();
+  ~Header() override;
 
   //! The Mach-O magic bytes. These bytes determine whether it is
   //! a 32 bits Mach-O, a 64 bits Mach-O files etc.
@@ -107,8 +107,6 @@ class LIEF_API Header : public Object {
   Header& operator+=(HEADER_FLAGS c);
   Header& operator-=(HEADER_FLAGS c);
 
-  bool operator==(const Header& rhs) const;
-  bool operator!=(const Header& rhs) const;
 
   void accept(Visitor& visitor) const override;
 

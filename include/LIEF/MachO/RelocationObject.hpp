@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,7 +51,7 @@ class LIEF_API RelocationObject : public Relocation {
 
   void swap(RelocationObject& other);
 
-  virtual ~RelocationObject();
+  ~RelocationObject() override;
 
   RelocationObject* clone() const override;
 
@@ -86,8 +86,6 @@ class LIEF_API RelocationObject : public Relocation {
 
   void value(int32_t value);
 
-  bool operator==(const RelocationObject& rhs) const;
-  bool operator!=(const RelocationObject& rhs) const;
 
   void accept(Visitor& visitor) const override;
 

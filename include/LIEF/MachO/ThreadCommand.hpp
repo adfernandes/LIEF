@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 
 #include "LIEF/visibility.h"
 #include "LIEF/types.hpp"
+#include "LIEF/span.hpp"
 
 #include "LIEF/MachO/LoadCommand.hpp"
 
@@ -50,7 +51,7 @@ class LIEF_API ThreadCommand : public LoadCommand {
 
   ThreadCommand* clone() const override;
 
-  virtual ~ThreadCommand();
+  ~ThreadCommand() override;
 
   //! Integer that defines a special *flavor* for the thread.
   //!
@@ -70,8 +71,13 @@ class LIEF_API ThreadCommand : public LoadCommand {
 
   //! The actual thread state as a vector of bytes. Depending on the architecture(),
   //! these data can be casted into x86_thread_state_t, x86_thread_state64_t, ...
-  const std::vector<uint8_t>& state() const;
-  std::vector<uint8_t>& state();
+  span<const uint8_t> state() const {
+    return  state_;
+  }
+
+  span<uint8_t> state() {
+    return state_;
+  }
 
   //! Return the initial Program Counter regardless of the underlying architecture.
   //! This value, when non null, can be used to determine the binary's entrypoint.
@@ -84,8 +90,6 @@ class LIEF_API ThreadCommand : public LoadCommand {
   void count(uint32_t count);
   void architecture(CPU_TYPES arch);
 
-  bool operator==(const ThreadCommand& rhs) const;
-  bool operator!=(const ThreadCommand& rhs) const;
 
   void accept(Visitor& visitor) const override;
 

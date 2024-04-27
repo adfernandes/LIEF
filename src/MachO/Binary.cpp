@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,6 +63,8 @@
 #include "LIEF/MachO/VersionMin.hpp"
 #include "MachO/Structures.hpp"
 
+#include "internal_utils.hpp"
+
 namespace LIEF {
 namespace MachO {
 
@@ -70,9 +72,9 @@ bool Binary::KeyCmp::operator() (const Relocation* lhs, const Relocation* rhs) c
   return *lhs < *rhs;
 }
 
-Binary::Binary() {
-  format_ = LIEF::EXE_FORMATS::FORMAT_MACHO;
-}
+Binary::Binary() :
+  LIEF::Binary(LIEF::Binary::FORMATS::MACHO)
+{}
 
 LIEF::Binary::sections_t Binary::get_abstract_sections() {
   LIEF::Binary::sections_t result;
@@ -207,7 +209,6 @@ bool Binary::is_pie() const {
   return header().has(HEADER_FLAGS::MH_PIE);
 }
 
-
 bool Binary::has_nx() const {
   if (!header().has(HEADER_FLAGS::MH_NO_HEAP_EXECUTION)) {
     LIEF_INFO("Heap could be executable");
@@ -215,6 +216,13 @@ bool Binary::has_nx() const {
   return !header().has(HEADER_FLAGS::MH_ALLOW_STACK_EXECUTION);
 }
 
+bool Binary::has_nx_stack() const {
+  return !header().has(HEADER_FLAGS::MH_ALLOW_STACK_EXECUTION);
+}
+
+bool Binary::has_nx_heap() const {
+  return header().has(HEADER_FLAGS::MH_NO_HEAP_EXECUTION);
+}
 
 bool Binary::has_entrypoint() const {
   return has_main_command() || has_thread_command();
@@ -1142,7 +1150,7 @@ bool Binary::remove(const LoadCommand& command) {
       });
 
   if (it == std::end(commands_)) {
-    LIEF_ERR("Unable to find command: {}", command);
+    LIEF_ERR("Unable to find command: {}", to_string(command));
     return false;
   }
 
@@ -1243,7 +1251,7 @@ bool Binary::extend(const LoadCommand& command, uint64_t size) {
       });
 
   if (it == std::end(commands_)) {
-    LIEF_ERR("Unable to find command: {}", command);
+    LIEF_ERR("Unable to find command: {}", to_string(command));
     return false;
   }
 

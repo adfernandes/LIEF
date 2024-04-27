@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -91,10 +91,7 @@ class LIEF_API ExportInfo : public Object {
   DylibCommand* alias_library();
   const DylibCommand* alias_library() const;
 
-  virtual ~ExportInfo();
-
-  bool operator==(const ExportInfo& rhs) const;
-  bool operator!=(const ExportInfo& rhs) const;
+  ~ExportInfo() override;
 
   void accept(Visitor& visitor) const override;
 

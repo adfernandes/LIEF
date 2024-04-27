@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,8 +30,10 @@
 
 namespace LIEF {
 namespace MachO {
-
 class BinaryParser;
+class Section;
+class SegmentCommand;
+class Symbol;
 
 //! Class that represents a Mach-O relocation
 //!
@@ -110,8 +112,6 @@ class LIEF_API Relocation : public LIEF::Relocation {
   virtual void pc_relative(bool val) = 0;
   virtual void type(uint8_t type);
 
-  bool operator==(const Relocation& rhs) const;
-  bool operator!=(const Relocation& rhs) const;
 
   void accept(Visitor& visitor) const override;
 

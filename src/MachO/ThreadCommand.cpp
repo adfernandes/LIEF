@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,14 +61,6 @@ uint32_t ThreadCommand::count() const {
 
 CPU_TYPES ThreadCommand::architecture() const {
   return architecture_;
-}
-
-const std::vector<uint8_t>& ThreadCommand::state() const {
-  return state_;
-}
-
-std::vector<uint8_t>& ThreadCommand::state() {
-  return const_cast<std::vector<uint8_t>&>(static_cast<const ThreadCommand*>(this)->state());
 }
 
 uint64_t ThreadCommand::pc() const {
@@ -138,18 +130,7 @@ void ThreadCommand::accept(Visitor& visitor) const {
 }
 
 
-bool ThreadCommand::operator==(const ThreadCommand& rhs) const {
-  if (this == &rhs) {
-    return true;
-  }
-  size_t hash_lhs = Hash::hash(*this);
-  size_t hash_rhs = Hash::hash(rhs);
-  return hash_lhs == hash_rhs;
-}
 
-bool ThreadCommand::operator!=(const ThreadCommand& rhs) const {
-  return !(*this == rhs);
-}
 
 bool ThreadCommand::classof(const LoadCommand* cmd) {
   // This must be sync with BinaryParser.tcc

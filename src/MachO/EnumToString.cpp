@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -517,18 +517,6 @@ const char* to_string(BuildVersion::PLATFORMS e) {
     { BuildVersion::PLATFORMS::IOS,       "IOS"       },
     { BuildVersion::PLATFORMS::TVOS,      "TVOS"      },
     { BuildVersion::PLATFORMS::WATCHOS,   "WATCHOS"   },
-  };
-  const auto it = enumStrings.find(e);
-  return it == enumStrings.end() ? "UNKNOWN" : it->second;
-}
-
-
-const char* to_string(BuildToolVersion::TOOLS e) {
-  CONST_MAP(BuildToolVersion::TOOLS, const char*, 4) enumStrings {
-    { BuildToolVersion::TOOLS::UNKNOWN, "UNKNOWN"   },
-    { BuildToolVersion::TOOLS::SWIFT,   "SWIFT"     },
-    { BuildToolVersion::TOOLS::CLANG,   "CLANG"     },
-    { BuildToolVersion::TOOLS::LD,      "LD"        },
   };
   const auto it = enumStrings.find(e);
   return it == enumStrings.end() ? "UNKNOWN" : it->second;

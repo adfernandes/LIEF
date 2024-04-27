@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,7 +45,7 @@ class LIEF_API VersionMin : public LoadCommand {
 
   VersionMin* clone() const override;
 
-  virtual ~VersionMin();
+  ~VersionMin() override;
 
   //! Return the version as an array
   const version_t& version() const;
@@ -54,9 +54,6 @@ class LIEF_API VersionMin : public LoadCommand {
   //! Return the sdk version as an array
   const version_t& sdk() const;
   void sdk(const version_t& sdk);
-
-  bool operator==(const VersionMin& rhs) const;
-  bool operator!=(const VersionMin& rhs) const;
 
   void accept(Visitor& visitor) const override;
 

@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,11 @@
 #include <set>
 #include <algorithm>
 #include <unordered_map>
+#include <sstream>
+#include "spdlog/fmt/fmt.h"
 
 #include "LIEF/span.hpp"
+#include "LIEF/errors.hpp"
 
 
 namespace LIEF {
@@ -35,6 +38,41 @@ inline std::vector<T> as_vector(span<T> s) {
 template<class T>
 inline std::vector<T> as_vector(span<const T> s) {
   return std::vector<T>(s.begin(), s.end());
+}
+
+template<class T>
+inline const char* to_string_or(result<T> res, const char* defval = "???") {
+  return res ? to_string(*res) : defval;
+}
+
+template<class T>
+inline std::string to_string(const T& obj) {
+  std::stringstream oss;
+  oss << obj;
+  return oss.str();
+}
+
+
+template<class T>
+inline std::string to_hex(const T& container, size_t maxsize = 0) {
+  if (container.empty()) {
+    return "";
+  }
+  size_t count = maxsize;
+  if (count == 0 || count > container.size()) {
+    count = container.size();
+  }
+  std::string out;
+  out.reserve(count * 2);
+  for (size_t i = 0; i < count; ++i) {
+    out += fmt::format("{:02x} ", container[i]);
+  }
+  if (count < container.size()) {
+    out += "...";
+  } else{
+    out.pop_back(); // remove trailing ' '
+  }
+  return out;
 }
 
 template<typename HANDLER>

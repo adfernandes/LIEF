@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,8 @@
 #include "LIEF/PE/ResourceNode.hpp"
 #include "LIEF/PE/ResourceDirectory.hpp"
 #include "LIEF/PE/ResourceData.hpp"
+
+#include "internal_utils.hpp"
 
 namespace LIEF {
 namespace PE {
@@ -173,7 +175,7 @@ void ResourceNode::delete_child(const ResourceNode& node) {
       });
 
   if (it_node == std::end(childs_)) {
-    LIEF_ERR("Unable to find the node {}", node);
+    LIEF_ERR("Unable to find the node {}", to_string(node));
     return;
   }
 
@@ -200,10 +202,6 @@ void ResourceNode::name(const std::string& name) {
     return this->name(std::move(*res));
   }
   LIEF_WARN("{} can't be converted to a UTF-16 string", name);
-}
-
-void ResourceNode::name(const std::u16string& name) {
-  name_ = name;
 }
 
 
@@ -235,18 +233,7 @@ void ResourceNode::accept(Visitor& visitor) const {
   visitor.visit(*this);
 }
 
-bool ResourceNode::operator==(const ResourceNode& rhs) const {
-  if (this == &rhs) {
-    return true;
-  }
-  size_t hash_lhs = Hash::hash(*this);
-  size_t hash_rhs = Hash::hash(rhs);
-  return hash_lhs == hash_rhs;
-}
 
-bool ResourceNode::operator!=(const ResourceNode& rhs) const {
-  return !(*this == rhs);
-}
 
 std::ostream& operator<<(std::ostream& os, const ResourceNode& node) {
   if (node.is_directory()) {

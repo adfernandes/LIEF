@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ class LIEF_API EncryptionInfo : public LoadCommand {
   EncryptionInfo& operator=(const EncryptionInfo& copy);
   EncryptionInfo(const EncryptionInfo& copy);
 
-  virtual ~EncryptionInfo();
+  ~EncryptionInfo() override;
 
   //! The beginning of the encrypted area
   uint32_t crypt_offset() const;
@@ -56,8 +56,6 @@ class LIEF_API EncryptionInfo : public LoadCommand {
   void crypt_size(uint32_t size);
   void crypt_id(uint32_t id);
 
-  bool operator==(const EncryptionInfo& rhs) const;
-  bool operator!=(const EncryptionInfo& rhs) const;
 
   void accept(Visitor& visitor) const override;
 

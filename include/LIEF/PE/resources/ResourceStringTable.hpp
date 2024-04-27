@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  * Copyright 2017 - 2021 K. Nakagawa
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,7 +36,7 @@ class LIEF_API ResourceStringTable : public Object {
 
   ResourceStringTable& operator=(const ResourceStringTable&);
 
-  virtual ~ResourceStringTable();
+  ~ResourceStringTable() override;
 
   void accept(Visitor& visitor) const override;
 
@@ -46,8 +46,6 @@ class LIEF_API ResourceStringTable : public Object {
   //! The variable-length Unicode string data, word-aligned.
   const std::u16string& name() const;
 
-  bool operator==(const ResourceStringTable& rhs) const;
-  bool operator!=(const ResourceStringTable& rhs) const;
 
   LIEF_API friend std::ostream& operator<<(std::ostream& os, const ResourceStringTable& string_table);
 

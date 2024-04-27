@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,11 +59,11 @@ uint32_t ResourceIcon::id() const {
   return id_;
 }
 
-RESOURCE_LANGS ResourceIcon::lang() const {
+uint32_t ResourceIcon::lang() const {
   return lang_;
 }
 
-RESOURCE_SUBLANGS ResourceIcon::sublang() const {
+uint32_t ResourceIcon::sublang() const {
   return sublang_;
 }
 
@@ -103,11 +103,11 @@ void ResourceIcon::id(uint32_t id) {
   id_ = id;
 }
 
-void ResourceIcon::lang(RESOURCE_LANGS lang) {
+void ResourceIcon::lang(uint32_t lang) {
   lang_ = lang;
 }
 
-void ResourceIcon::sublang(RESOURCE_SUBLANGS sublang) {
+void ResourceIcon::sublang(uint32_t sublang) {
   sublang_ = sublang;
 }
 
@@ -184,18 +184,7 @@ void ResourceIcon::accept(Visitor& visitor) const {
   visitor.visit(*this);
 }
 
-bool ResourceIcon::operator==(const ResourceIcon& rhs) const {
-  if (this == &rhs) {
-    return true;
-  }
-  size_t hash_lhs = Hash::hash(*this);
-  size_t hash_rhs = Hash::hash(rhs);
-  return hash_lhs == hash_rhs;
-}
 
-bool ResourceIcon::operator!=(const ResourceIcon& rhs) const {
-  return !(*this == rhs);
-}
 
 
 std::ostream& operator<<(std::ostream& os, const ResourceIcon& icon) {

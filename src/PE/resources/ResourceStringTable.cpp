@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  * Copyright 2017 - 2021 K. Nakagawa
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -51,16 +51,7 @@ void ResourceStringTable::accept(Visitor& visitor) const {
   visitor.visit(*this);
 }
 
-bool ResourceStringTable::operator==(const ResourceStringTable& rhs) const {
-  if (this == &rhs) {
-    return true;
-  }
-  return Hash::hash(*this) == Hash::hash(rhs);
-}
 
-bool ResourceStringTable::operator!=(const ResourceStringTable& rhs) const {
-  return !(*this == rhs);
-}
 
 
 std::ostream& operator<<(std::ostream& os, const ResourceStringTable& string_table) {

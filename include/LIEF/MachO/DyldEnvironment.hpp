@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ class LIEF_API DyldEnvironment : public LoadCommand {
 
   DyldEnvironment* clone() const override;
 
-  virtual ~DyldEnvironment();
+  ~DyldEnvironment() override;
 
   std::ostream& print(std::ostream& os) const override;
 
@@ -51,8 +51,6 @@ class LIEF_API DyldEnvironment : public LoadCommand {
 
   void value(const std::string& values);
 
-  bool operator==(const DyldEnvironment& rhs) const;
-  bool operator!=(const DyldEnvironment& rhs) const;
 
   void accept(Visitor& visitor) const override;
 

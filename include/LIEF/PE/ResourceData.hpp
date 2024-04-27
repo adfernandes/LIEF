@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,9 +42,11 @@ class LIEF_API ResourceData : public ResourceNode {
   ResourceData& operator=(ResourceData other);
   void swap(ResourceData& other);
 
-  virtual ~ResourceData();
+  ~ResourceData() override;
 
-  ResourceData* clone() const override;
+  std::unique_ptr<ResourceNode> clone() const override {
+    return std::unique_ptr<ResourceNode>{new ResourceData{*this}};
+  }
 
   //! Return the code page that is used to decode code point
   //! values within the resource data. Typically, the code page is the Unicode code page.
@@ -66,10 +68,12 @@ class LIEF_API ResourceData : public ResourceNode {
   void content(const std::vector<uint8_t>& content);
   void reserved(uint32_t value);
 
+  static bool classof(const ResourceNode* node) {
+    return node->is_data();
+  }
+
   void accept(Visitor& visitor) const override;
 
-  bool operator==(const ResourceData& rhs) const;
-  bool operator!=(const ResourceData& rhs) const;
 
   LIEF_API friend std::ostream& operator<<(std::ostream& os, const ResourceData& data);
 

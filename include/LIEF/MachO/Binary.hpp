@@ -1,6 +1,6 @@
 
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -452,6 +452,12 @@ class LIEF_API Binary : public LIEF::Binary  {
   //! Check if the binary uses ``NX`` protection
   bool has_nx() const override;
 
+  /// Return True if the **heap** is flagged as non-executable. False otherwise
+  bool has_nx_stack() const;
+
+  /// Return True if the **stack** is flagged as non-executable. False otherwise
+  bool has_nx_heap() const;
+
   //! ``true`` if the binary has an entrypoint.
   //!
   //! Basically for libraries it will return ``false``
@@ -676,11 +682,15 @@ class LIEF_API Binary : public LIEF::Binary  {
   //! it returns the in-memory base address of this binary.
   //!
   //! Otherwise, it returns 0
-  inline uint64_t memory_base_address() const {
+  uint64_t memory_base_address() const {
     return in_memory_base_addr_;
   }
 
   uint32_t page_size() const;
+
+  static bool classof(const LIEF::Binary* bin) {
+    return bin->format() == Binary::FORMATS::MACHO;
+  }
 
   private:
   //! Default constructor
@@ -704,15 +714,15 @@ class LIEF_API Binary : public LIEF::Binary  {
   LIEF::Binary::functions_t get_abstract_imported_functions() const override;
   std::vector<std::string>  get_abstract_imported_libraries() const override;
 
-  inline relocations_t& relocations_list() {
+  relocations_t& relocations_list() {
     return this->relocations_;
   }
 
-  inline const relocations_t& relocations_list() const {
+  const relocations_t& relocations_list() const {
     return this->relocations_;
   }
 
-  inline size_t pointer_size() const {
+  size_t pointer_size() const {
     return this->is64_ ? sizeof(uint64_t) : sizeof(uint32_t);
   }
 

@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,13 +35,14 @@ class LIEF_API MainCommand : public LoadCommand {
   public:
   MainCommand();
   MainCommand(const details::entry_point_command& cmd);
+  MainCommand(uint64_t entrypoint, uint64_t stacksize);
 
   MainCommand& operator=(const MainCommand& copy);
   MainCommand(const MainCommand& copy);
 
   MainCommand* clone() const override;
 
-  virtual ~MainCommand();
+  ~MainCommand() override;
 
   //! Offset of the *main* function relative to the ``__TEXT``
   //! segment
@@ -53,8 +54,6 @@ class LIEF_API MainCommand : public LoadCommand {
   void entrypoint(uint64_t entrypoint);
   void stack_size(uint64_t stacksize);
 
-  bool operator==(const MainCommand& rhs) const;
-  bool operator!=(const MainCommand& rhs) const;
 
   std::ostream& print(std::ostream& os) const override;
 

@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,10 @@
 #include "LIEF/types.hpp"
 
 #include <string>
+
+namespace spdlog {
+class logger;
+}
 
 namespace LIEF {
 namespace logging {
@@ -54,6 +58,10 @@ LIEF_API void set_path(const std::string& path);
 
 //! Log a message with the LIEF's logger
 LIEF_API void log(LOGGING_LEVEL level, const std::string& msg);
+
+LIEF_API void set_logger(const spdlog::logger& logger);
+
+LIEF_API void reset();
 
 }
 }

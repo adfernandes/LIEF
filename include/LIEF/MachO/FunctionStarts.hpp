@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,18 +74,16 @@ class LIEF_API FunctionStarts : public LoadCommand {
   void data_size(uint32_t size);
   void functions(const std::vector<uint64_t>& funcs);
 
-  inline span<const uint8_t> content() const {
+  span<const uint8_t> content() const {
     return content_;
   }
 
-  inline span<uint8_t> content() {
+  span<uint8_t> content() {
     return content_;
   }
 
-  virtual ~FunctionStarts();
+  ~FunctionStarts() override;
 
-  bool operator==(const FunctionStarts& rhs) const;
-  bool operator!=(const FunctionStarts& rhs) const;
 
   void accept(Visitor& visitor) const override;
 

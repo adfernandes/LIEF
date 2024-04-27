@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -346,51 +346,4 @@ void BinaryStream::set_endian_swap(bool swap) {
   endian_swap_ = swap;
 }
 
-result<size_t> BinaryStream::asn1_read_tag(int) {
-  return make_error_code(lief_errors::not_implemented);
 }
-
-result<size_t> BinaryStream::asn1_read_len() {
-  return make_error_code(lief_errors::not_implemented);
-}
-
-result<std::string> BinaryStream::asn1_read_alg() {
-  return make_error_code(lief_errors::not_implemented);
-}
-
-result<std::string> BinaryStream::asn1_read_oid() {
-  return make_error_code(lief_errors::not_implemented);
-}
-
-result<int32_t> BinaryStream::asn1_read_int() {
-  return make_error_code(lief_errors::not_implemented);
-}
-
-result<std::vector<uint8_t>> BinaryStream::asn1_read_bitstring() {
-  return make_error_code(lief_errors::not_implemented);
-}
-
-result<std::vector<uint8_t>> BinaryStream::asn1_read_octet_string() {
-  return make_error_code(lief_errors::not_implemented);
-}
-
-result<std::unique_ptr<mbedtls_x509_crt>> BinaryStream::asn1_read_cert() {
-  return make_error_code(lief_errors::not_implemented);
-}
-
-result<std::string> BinaryStream::x509_read_names() {
-  return make_error_code(lief_errors::not_implemented);
-}
-
-result<std::vector<uint8_t>> BinaryStream::x509_read_serial() {
-  return make_error_code(lief_errors::not_implemented);
-}
-
-result<std::unique_ptr<mbedtls_x509_time>> BinaryStream::x509_read_time() {
-  return make_error_code(lief_errors::not_implemented);
-}
-
-
-
-}
-

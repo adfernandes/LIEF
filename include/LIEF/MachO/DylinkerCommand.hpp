@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ class LIEF_API DylinkerCommand : public LoadCommand {
 
   DylinkerCommand* clone() const override;
 
-  virtual ~DylinkerCommand();
+  ~DylinkerCommand() override;
 
   std::ostream& print(std::ostream& os) const override;
 
@@ -53,8 +53,6 @@ class LIEF_API DylinkerCommand : public LoadCommand {
 
   void name(const std::string& name);
 
-  bool operator==(const DylinkerCommand& rhs) const;
-  bool operator!=(const DylinkerCommand& rhs) const;
 
   void accept(Visitor& visitor) const override;
 

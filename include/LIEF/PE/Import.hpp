@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,11 +50,12 @@ class LIEF_API Import : public Object {
   Import(const details::pe_import& import);
   Import(std::string name);
   Import();
-  virtual ~Import();
+  ~Import() override;
 
   Import(const Import& other);
-  Import& operator=(Import other);
-  void swap(Import& other);
+  Import(Import&& other);
+  Import& operator=(Import&& other);
+  Import& operator=(const Import& other);
 
   //! The index of the first forwarder reference
   uint32_t forwarder_chain() const;
@@ -97,14 +98,14 @@ class LIEF_API Import : public Object {
   void name(const std::string& name);
 
   //! Return the PE::DataDirectory associated with this import.
-  //! It should be the one at index PE::DATA_DIRECTORY::IMPORT_TABLE
+  //! It should be the one at index PE::DataDirectory::TYPES::IMPORT_TABLE
   //!
   //! If the data directory can't be found, return a nullptr
   DataDirectory*       directory();
   const DataDirectory* directory() const;
 
   //! Return the PE::DataDirectory associated associated with the IAT.
-  //! It should be the one at index PE::DATA_DIRECTORY::IAT
+  //! It should be the one at index PE::DataDirectory::TYPES::IAT
   //!
   //! If the data directory can't be found, return a nullptr
   DataDirectory*       iat_directory();
@@ -121,8 +122,6 @@ class LIEF_API Import : public Object {
 
   void accept(Visitor& visitor) const override;
 
-  bool operator==(const Import& rhs) const;
-  bool operator!=(const Import& rhs) const;
 
   LIEF_API friend std::ostream& operator<<(std::ostream& os, const Import& entry);
 

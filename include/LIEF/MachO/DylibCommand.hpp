@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -86,7 +86,7 @@ class LIEF_API DylibCommand : public LoadCommand {
   DylibCommand& operator=(const DylibCommand& copy);
   DylibCommand(const DylibCommand& copy);
 
-  virtual ~DylibCommand();
+  ~DylibCommand() override;
 
   DylibCommand* clone() const override;
 
@@ -108,9 +108,6 @@ class LIEF_API DylibCommand : public LoadCommand {
   void compatibility_version(version_t compatibilityVersion);
 
   std::ostream& print(std::ostream& os) const override;
-
-  bool operator==(const DylibCommand& rhs) const;
-  bool operator!=(const DylibCommand& rhs) const;
 
   void accept(Visitor& visitor) const override;
 

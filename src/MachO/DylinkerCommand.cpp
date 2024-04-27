@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,18 +58,7 @@ void DylinkerCommand::accept(Visitor& visitor) const {
 }
 
 
-bool DylinkerCommand::operator==(const DylinkerCommand& rhs) const {
-  if (this == &rhs) {
-    return true;
-  }
-  size_t hash_lhs = Hash::hash(*this);
-  size_t hash_rhs = Hash::hash(rhs);
-  return hash_lhs == hash_rhs;
-}
 
-bool DylinkerCommand::operator!=(const DylinkerCommand& rhs) const {
-  return !(*this == rhs);
-}
 
 bool DylinkerCommand::classof(const LoadCommand* cmd) {
   // This must be sync with BinaryParser.tcc

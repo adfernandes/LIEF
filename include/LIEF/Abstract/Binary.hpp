@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,6 @@ class Symbol;
 //! Abstract binary that exposes an uniform API for the
 //! different executable file formats
 class LIEF_API Binary : public Object {
-
   public:
 
   //! Type of a virtual address
@@ -45,6 +44,14 @@ class LIEF_API Binary : public Object {
     AUTO = 0, ///< Try to guess if it's relative or not
     RVA  = 1, ///< Relative
     VA   = 2, ///< Absolute
+  };
+
+  enum FORMATS {
+    UNKNOWN = 0,
+    ELF,
+    PE,
+    MACHO,
+    OAT,
   };
 
   using functions_t = std::vector<Function>;
@@ -78,13 +85,19 @@ class LIEF_API Binary : public Object {
 
   public:
   Binary();
-  virtual ~Binary();
+  Binary(FORMATS fmt) :
+    format_{fmt}
+  {}
+
+  ~Binary() override;
 
   Binary& operator=(const Binary&);
   Binary(const Binary&);
 
   //! Executable format (ELF, PE, Mach-O) of the underlying binary
-  EXE_FORMATS format() const;
+  FORMATS format() const {
+    return format_;
+  }
 
   //! Return the abstract header of the binary
   Header header() const;
@@ -199,7 +212,7 @@ class LIEF_API Binary : public Object {
   LIEF_API friend std::ostream& operator<<(std::ostream& os, const Binary& binary);
 
   protected:
-  EXE_FORMATS format_ = EXE_FORMATS::FORMAT_UNKNOWN;
+  FORMATS format_ = FORMATS::UNKNOWN;
 
   uint64_t original_size_ = 0;
 
@@ -213,6 +226,11 @@ class LIEF_API Binary : public Object {
   virtual functions_t  get_abstract_imported_functions() const = 0;
   virtual std::vector<std::string>  get_abstract_imported_libraries() const = 0;
 };
+
+LIEF_API const char* to_string(Binary::VA_TYPES e);
+LIEF_API const char* to_string(Binary::FORMATS e);
+
 }
+
 
 #endif

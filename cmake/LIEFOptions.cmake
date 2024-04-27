@@ -10,7 +10,6 @@ option(LIEF_PYTHON_API                 "Enable Python Bindings"                 
 option(LIEF_C_API                      "C API"                                      ON)
 option(LIEF_EXAMPLES                   "Build LIEF C++ examples"                    ON)
 option(LIEF_FORCE32                    "Force build LIEF 32 bits version"           OFF)
-option(LIEF_COVERAGE                   "Perform code coverage"                      OFF)
 option(LIEF_USE_CCACHE                 "Use ccache to speed up compilation"         ON)
 option(LIEF_EXTRA_WARNINGS             "Enable extra warning from the compiler"     OFF)
 option(LIEF_LOGGING                    "Enable logging"                             ON)
@@ -18,6 +17,7 @@ option(LIEF_LOGGING_DEBUG              "Enable debug logging"                   
 option(LIEF_ENABLE_JSON                "Enable JSON-related APIs"                   ON)
 option(LIEF_OPT_NLOHMANN_JSON_EXTERNAL "Use nlohmann/json externaly"                OFF)
 option(LIEF_FORCE_API_EXPORTS          "Force exports of API symbols"               OFF)
+option(LIEF_PY_LIEF_EXT                "Use a pre-installed version of LIEF for the bindings" OFF)
 
 option(LIEF_DISABLE_FROZEN "Disable Frozen even if it is supported"     OFF)
 
@@ -27,6 +27,12 @@ option(LIEF_MACHO          "Build LIEF with MachO module"               ON)
 
 option(LIEF_DEX            "Build LIEF with DEX module"                 ON)
 option(LIEF_ART            "Build LIEF with ART module"                 ON)
+
+cmake_dependent_option(LIEF_PYTHON_EDITABLE "Make an editable build " OFF
+                       "LIEF_PYTHON_API" OFF)
+
+cmake_dependent_option(LIEF_PYTHON_STATIC "Internal usage" OFF
+                       "LIEF_PYTHON_API" OFF)
 
 # OAT support relies on the ELF and DEX format.
 # Therefore, these options must be enabled to support use this format
@@ -67,8 +73,8 @@ option(LIEF_OPT_UTFCPP_EXTERNAL OFF)
 # This option enables to provide an external version of MbedTLS
 option(LIEF_OPT_MBEDTLS_EXTERNAL OFF)
 
-# This option enables to provide an external version of pybind11
-option(LIEF_OPT_PYBIND11_EXTERNAL OFF)
+# This option enables to provide an external version of nanobind
+option(LIEF_OPT_NANOBIND_EXTERNAL OFF)
 
 # This option enables to provide an external
 # version of https://github.com/tcbrindle/span (e.g. present on the system)
@@ -80,6 +86,7 @@ set(_LIEF_USE_FROZEN ON)
 if(LIEF_DISABLE_FROZEN)
   set(_LIEF_USE_FROZEN OFF)
 endif()
+
 cmake_dependent_option(LIEF_OPT_FROZEN_EXTERNAL "Use an external provided version of Frozen" OFF
                        "_LIEF_USE_FROZEN" OFF)
 
@@ -175,8 +182,8 @@ if(LIEF_OPT_EXTERNAL_SPAN)
 endif()
 
 if(LIEF_PYTHON_API)
-  if(LIEF_OPT_PYBIND11_EXTERNAL)
-    set(LIEF_EXTERNAL_PYBIND11 1)
+  if(LIEF_OPT_NANOBIND_EXTERNAL)
+    set(LIEF_EXTERNAL_NANOBIND 1)
   endif()
 endif()
 

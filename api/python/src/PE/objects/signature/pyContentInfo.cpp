@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,28 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <string>
-#include <sstream>
+#include "PE/pyPE.hpp"
 
-#include "LIEF/PE/hash.hpp"
 #include "LIEF/PE/signature/ContentInfo.hpp"
 
-#include "pyPE.hpp"
+#include <string>
+#include <sstream>
+#include <nanobind/stl/string.h>
+#include <nanobind/stl/unique_ptr.h>
 
-namespace LIEF {
-namespace PE {
+#include "nanobind/utils.hpp"
 
-template<class T>
-using getter_t = T (ContentInfo::*)(void) const;
-
-template<class T>
-using setter_t = void (ContentInfo::*)(T);
-
+namespace LIEF::PE::py {
 
 template<>
-void create<ContentInfo>(py::module& m) {
+void create<ContentInfo>(nb::module_& m) {
 
-  py::class_<ContentInfo, LIEF::Object>(m, "ContentInfo",
+  nb::class_<ContentInfo, Object> info(m, "ContentInfo",
       R"delim(
       ContentInfo as described in the `RFC 2315 <https://tools.ietf.org/html/rfc2315#section-7>`_
 
@@ -77,40 +72,35 @@ void create<ContentInfo>(py::module& m) {
          algorithm  ObjectID,
          parameters [0] EXPLICIT ANY OPTIONAL
         }
-      )delim")
+      )delim"_doc);
 
-    .def_property_readonly("content_type",
+  nb::class_<ContentInfo::Content, Object>(info, "Content")
+    .def_prop_ro("content_type",
+        &ContentInfo::Content::content_type,
+        "OID of the content type. This value should match ``SPC_INDIRECT_DATA_OBJID``"_doc)
+    LIEF_CLONABLE(ContentInfo::Content);
+
+  info
+    .def_prop_ro("content_type",
         &ContentInfo::content_type,
-        "OID of the content type. This value should match ``SPC_INDIRECT_DATA_OBJID``")
-
-     .def_property_readonly("digest_algorithm",
-        &ContentInfo::digest_algorithm,
-        "Algorithm (" RST_CLASS_REF(lief.PE.ALGORITHMS) ") used to hash the file. "
-        "This value should match " RST_ATTR_REF_FULL(SignerInfo.digest_algorithm) " and "
-        "" RST_ATTR_REF_FULL(Signature.digest_algorithm) "")
-
-    .def_property_readonly("digest",
-        [] (const ContentInfo& info) -> py::bytes {
-          const std::vector<uint8_t>& dg = info.digest();
-          return py::bytes(reinterpret_cast<const char*>(dg.data()), dg.size());
+        "An alias for :attr:`~.ContentInfo.content_type`"_doc)
+    .def_prop_ro("digest",
+        [] (const ContentInfo& self) -> nb::bytes {
+          return nb::to_bytes(self.digest());
         },
-        "The digest as ``bytes``. It should match the binary :meth:`~lief.PE.Binary.authentihash`")
+        R"delim(
+        Return the digest (authentihash) if the underlying content type is
+        `SPC_INDIRECT_DATA_OBJID`. Return an empty vector otherwise.
+        )delim"_doc
+    )
+    .def_prop_ro("digest_algorithm", &ContentInfo::digest_algorithm,
+                 "Return the hash algorithm used to generate the :attr:`.digest`"_doc)
+    .def_prop_ro("value", nb::overload_cast<>(&ContentInfo::value),
+                 nb::rv_policy::reference_internal)
 
-    .def("__hash__",
-        [] (const ContentInfo& info) {
-          return Hash::hash(info);
-        })
-
-    .def("__str__",
-        [] (const ContentInfo& content_info)
-        {
-          std::ostringstream stream;
-          stream << content_info;
-          std::string str =  stream.str();
-          return str;
-        });
+    LIEF_COPYABLE(ContentInfo)
+    LIEF_DEFAULT_STR(ContentInfo);
 }
 
-}
 }
 

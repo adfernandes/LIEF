@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 #ifndef LIEF_PE_RICH_ENTRY_H
 #define LIEF_PE_RICH_ENTRY_H
+#include <cstdint>
 #include <ostream>
 
 #include "LIEF/Object.hpp"
@@ -31,7 +32,7 @@ class LIEF_API RichEntry : public Object {
   RichEntry(uint16_t id, uint16_t build_id, uint32_t count);
   RichEntry(const RichEntry&);
   RichEntry& operator=(const RichEntry&);
-  virtual ~RichEntry();
+  ~RichEntry() override;
 
   //! Entry type
   uint16_t id() const;
@@ -47,9 +48,6 @@ class LIEF_API RichEntry : public Object {
   void count(uint32_t count);
 
   void accept(Visitor& visitor) const override;
-
-  bool operator==(const RichEntry& rhs) const;
-  bool operator!=(const RichEntry& rhs) const;
 
   LIEF_API friend std::ostream& operator<<(std::ostream& os, const RichEntry& rich_entry);
 

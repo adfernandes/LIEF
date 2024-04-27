@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,14 +43,12 @@ class LIEF_API UUIDCommand : public LoadCommand {
 
   UUIDCommand* clone() const override;
 
-  virtual ~UUIDCommand();
+  ~UUIDCommand() override;
 
   //! The UUID as a 16-bytes array
   uuid_t uuid() const;
   void   uuid(const uuid_t& uuid);
 
-  bool operator==(const UUIDCommand& rhs) const;
-  bool operator!=(const UUIDCommand& rhs) const;
 
   void accept(Visitor& visitor) const override;
 

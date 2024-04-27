@@ -45,9 +45,6 @@ Logging levels
 ~~~~~~~~~~~~~~
 
 .. autoclass:: lief.logging.LOGGING_LEVEL
-  :members:
-  :inherited-members:
-  :undoc-members:
 
 .. _python-api-error-handling:
 
@@ -55,14 +52,10 @@ Error Handling
 --------------
 
 .. autoclass:: lief.lief_errors
-  :members:
-  :inherited-members:
-  :undoc-members:
 
 .. autoclass:: lief.ok_t
-  :members:
-  :inherited-members:
-  :undoc-members:
+
+.. autoclass:: lief.ok_error_t
 
 See also the section :ref:`err_handling`
 

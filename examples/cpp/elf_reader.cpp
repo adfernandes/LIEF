@@ -1,5 +1,5 @@
-/* Copyright 2017 - 2023 R. Thomas
- * Copyright 2017 - 2023 Quarkslab
+/* Copyright 2017 - 2024 R. Thomas
+ * Copyright 2017 - 2024 Quarkslab
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,10 +60,10 @@ int main(int argc, char **argv) {
     std::cout << entry << '\n';
   }
 
-  auto static_symbols = binary->static_symbols();
-  if (static_symbols.size() > 0) {
-    std::cout << "== Static symbols ==" << '\n';
-    for (const Symbol& symbol : static_symbols) {
+  auto symtab_symbols = binary->symtab_symbols();
+  if (symtab_symbols.size() > 0) {
+    std::cout << "== .symtab (debug) symbols ==" << '\n';
+    for (const Symbol& symbol : symtab_symbols) {
       std::cout << symbol << '\n';
     }
   }
